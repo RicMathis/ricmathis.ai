@@ -75,6 +75,24 @@
     toastTimer = setTimeout(() => $toast.classList.remove("show"), 2600);
   }
 
+  // In-page confirmation dialog (browser confirm() is blocked in embedded frames).
+  function ask(message, okLabel) {
+    return new Promise((resolve) => {
+      const prevKeys = keyHandler;
+      const back = document.activeElement;
+      const wrap = document.createElement("div");
+      wrap.className = "modal";
+      wrap.innerHTML = `<div class="panel modal-box" role="alertdialog" aria-modal="true" aria-labelledby="ask-msg">
+        <p id="ask-msg">${esc(message)}</p>
+        <div class="actions"><button class="btn ghost" data-k="0">Cancel</button><button class="btn amber" data-k="1">${esc(okLabel || "OK")}</button></div></div>`;
+      const done = (v) => { wrap.remove(); keyHandler = prevKeys; if (back && back.focus) back.focus(); resolve(v); };
+      wrap.addEventListener("click", (e) => { const b = e.target.closest("[data-k]"); if (b) done(b.dataset.k === "1"); else if (e.target === wrap) done(false); });
+      keyHandler = (e) => { if (e.key === "Escape") { e.preventDefault(); done(false); } };
+      document.body.appendChild(wrap);
+      wrap.querySelector('[data-k="1"]').focus();
+    });
+  }
+
   function award(id) {
     if (S.badges.includes(id)) return;
     S.badges.push(id);
@@ -196,7 +214,7 @@
         <div class="row" style="margin-top:16px"><span class="spacer"></span><button class="btn ghost" id="reset">Reset progress</button></div>
       </section>`;
     document.getElementById("reset").onclick = () => {
-      if (confirm("Erase all XP, stars, badges and history?")) { S = fresh(); save(); home(); toast("Progress reset"); }
+      ask("Erase all XP, stars, badges and history?", "Erase progress").then((ok) => { if (ok) { S = fresh(); save(); home(); toast("Progress reset"); } });
     };
   }
 
@@ -270,7 +288,7 @@
       ${questionCard(it, { reveal: false })}
       <div class="actions" id="actions"><button class="btn ghost" id="abort">Abort mission</button></div>`;
     bindAnswers(onQuizAnswer);
-    document.getElementById("abort").onclick = () => { if (confirm("Abort and return to the hangar? Progress on this run is lost.")) go(isMission ? "missions" : "home"); };
+    document.getElementById("abort").onclick = () => { ask("Abort and return? Progress on this run is lost.", "Abort").then((ok) => { if (ok) go(isMission ? "missions" : "home"); }); };
   }
 
   function questionCard(it, { reveal, label }) {
@@ -595,7 +613,7 @@
       const blank = E.items.filter((x) => x.pick === null).length;
       const flagged = E.items.filter((x) => x.flag).length;
       const warn = [blank && `${blank} unanswered`, flagged && `${flagged} flagged`].filter(Boolean).join(" and ");
-      if (confirm(warn ? `You have ${warn}. Submit anyway?` : "Submit your checkride for grading?")) { stopTimer(); gradeExam(); }
+      ask(warn ? `You have ${warn}. Submit anyway?` : "Submit your checkride for grading?", "Submit").then((ok) => { if (ok && E && timer) { stopTimer(); gradeExam(); } });
     };
   }
 
