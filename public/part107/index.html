@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Part 107 Sky Academy</title>
+  <meta name="description" content="A free study game for the FAA Part 107 Remote Pilot knowledge test: missions, flashcards, a lightning round and a full 60-question mock exam.">
+  <meta name="theme-color" content="#071426">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23071426'/%3E%3Cg fill='none' stroke='%2338e1c6' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M20 20l24 24M44 20L20 44'/%3E%3C/g%3E%3Cg fill='%23ffb547'%3E%3Ccircle cx='18' cy='18' r='7'/%3E%3Ccircle cx='46' cy='18' r='7'/%3E%3Ccircle cx='18' cy='46' r='7'/%3E%3Ccircle cx='46' cy='46' r='7'/%3E%3C/g%3E%3Crect x='25' y='25' width='14' height='14' rx='3' fill='%2338e1c6'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#app">Skip to content</a>
+  <div class="sky" aria-hidden="true"><div class="stars"></div><div class="grid"></div></div>
+
+  <header class="topbar">
+    <button class="brand" data-go="home" aria-label="Sky Academy home">
+      <svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><use href="#drone"/></svg>
+      <span><strong>Sky Academy</strong><small>Part 107 Prep</small></span>
+    </button>
+    <div class="hud" id="hud" aria-live="polite"></div>
+  </header>
+
+  <main id="app" tabindex="-1"></main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="foot">
+    Study aid only, not affiliated with the FAA. Rules change — confirm against
+    <a href="https://www.faa.gov/uas/commercial_operators" target="_blank" rel="noopener">FAA.gov</a>
+    and the Remote Pilot Study Guide before your test.
+  </footer>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="drone" viewBox="0 0 64 64">
+      <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M20 20l24 24M44 20L20 44"/></g>
+      <g class="rotor"><ellipse cx="17" cy="17" rx="11" ry="3" fill="#ffb547"/></g>
+      <g class="rotor"><ellipse cx="47" cy="17" rx="11" ry="3" fill="#ffb547"/></g>
+      <g class="rotor"><ellipse cx="17" cy="47" rx="11" ry="3" fill="#ffb547"/></g>
+      <g class="rotor"><ellipse cx="47" cy="47" rx="11" ry="3" fill="#ffb547"/></g>
+      <rect x="24" y="24" width="16" height="16" rx="4" fill="#38e1c6"/>
+      <circle cx="32" cy="32" r="3" fill="#071426"/>
+    </symbol>
+  </svg>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
