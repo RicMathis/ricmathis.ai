@@ -2,7 +2,7 @@
 
 A study game for the FAA Part 107 Remote Pilot knowledge test. Plain HTML/CSS/JS with no build step and no dependencies.
 
-**Run it:** open `index.html` in a browser, or serve the folder (`npx serve public/part107`). Inside the Next.js site it is served from `/part107/index.html`.
+**Run it:** open `index.html` in a browser, or serve the folder (`npx serve public/drone`). On the website it appears at **ricmathis.ai/drone** through `src/app/drone/page.tsx`, which embeds `public/drone/index.html`.
 
 ## Modes
 - **Missions**: six topic flights (Regulations, Airspace & Charts, Weather, Loading & Performance, Operations, Decision Making). Each has 10 questions and a 3-cell battery; every miss drains a cell. Earn 1–3 stars, and clearing a mission unlocks the next one.
